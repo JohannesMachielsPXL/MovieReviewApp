@@ -15,23 +15,6 @@ import MovieReviewsIcon from './icons/IconMovieReviews.vue'
     <template #movieReviews>Insert movie Reviews List</template>
   </MovieItem>
 
-  <MovieItem>
-    <template #icon>
-      <MovieDetailsIcon />
-    </template>
-    <template #movieTitle>Insert Titel </template>
-    <template #movieRating>Insert movie rating stars</template>
-    <template #movieReviews>Insert movie Reviews List</template>
-  </MovieItem>
-
-  <MovieItem>
-    <template #icon>
-      <MovieDetailsIcon />
-    </template>
-    <template #movieTitle>Insert Titel </template>
-    <template #movieRating>Insert movie rating stars</template>
-    <template #movieReviews>Insert movie Reviews List</template>
-  </MovieItem>
 
 
 </template>
