@@ -1,6 +1,6 @@
 <script setup>
-import MovieList from "@/components/MovieList.vue";
-import MovieReview from "@/components/MovieReview.vue";
+import MovieList from "@/components/MovieListView.vue";
+import MovieReview from "@/components/MovieReviewView.vue";
 </script>
 
 <template>
