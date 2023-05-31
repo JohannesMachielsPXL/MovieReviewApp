@@ -24,7 +24,7 @@
   "movies": [
     {
       "id": 0,
-      "name": "titanic",
+      "name": "Titanic",
       "directorId": 0,
       "reviewScore": "",
       "reviewCounter": 0
