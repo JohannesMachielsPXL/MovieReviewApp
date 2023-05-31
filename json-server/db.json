@@ -1,0 +1,70 @@
+{
+  "people": [
+    {
+      "id": 0,
+      "name": "kevin",
+      "achternaam": "Theys"
+    },
+    {
+      "id": 1,
+      "name": "Lotte",
+      "achternaam": "Jansen"
+    },
+    {
+      "id": 2,
+      "name": "Wannes",
+      "achternaam": "Machiels"
+    },
+    {
+      "id": 3,
+      "name": "Ben",
+      "achternaam": "Vandendriessche"
+    }
+  ],
+  "movies": [
+    {
+      "id": 0,
+      "name": "titanic",
+      "directorId": 0,
+      "reviewScore": "",
+      "reviewCounter": 0
+
+    },
+    {
+      "id": 1,
+      "name": "Avatar",
+      "directorId": 0,
+      "reviewScore": "",
+      "reviewCounter": 0
+    },
+    {
+      "id": 2,
+      "name": "The Lion King",
+      "directorId": 1,
+      "reviewScore": "",
+      "reviewCounter": 0
+    },
+    {
+      "id": 3,
+      "name": "Frozen",
+      "directorId": 2,
+      "reviewScore": "",
+      "reviewCounter": 0
+    }
+
+  ],
+  "directors": [
+    {
+      "id": 0,
+      "name": "James Cameron"
+    },
+    {
+      "id": 1,
+      "name": "Jon Favreau"
+    },
+    {
+      "id": 2,
+      "name": "Chris Buck"
+    }
+  ]
+}
