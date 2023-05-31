@@ -5,11 +5,17 @@
       Select a movie to get started
     </h3>
     <div id="MovieList">
-      List of Movies (*** insert list as MovieItems?)
+      <table>
+        <tbody>
+        <tr v-for = "movie in movies" v-bind:key = movie.id>
+          <td>{{movie.name}}</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
+    <hr>
   </div>
 </template>
-
 
 <style scoped>
 h1 {
@@ -37,3 +43,25 @@ td {
   }
 }
 </style>
+
+<script>
+import MovieService from "@/services/MovieService";
+
+export default {
+  name: 'Movies',
+  data(){
+    return{ movies : []
+    }
+  },
+  methods: {
+    getMovies(){
+      MovieService.getMovies().then((response) => {
+        this.movies = response.data;
+      });
+    }
+  },
+  created() {
+    this.getMovies()
+  }
+}
+</script>
