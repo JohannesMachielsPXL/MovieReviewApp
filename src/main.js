@@ -6,7 +6,7 @@ const store = createStore({
     state () {
         return {
             movies: [],
-            selectedMovie:{name:'none'},
+            selectedMovie:{data:{name:'none'}},
         }
     },
     mutations: {
@@ -15,6 +15,11 @@ const store = createStore({
         },
         setSelectedMovie (state,selectedMovie){
           state.selectedMovie = selectedMovie;
+        }
+    },
+    getters: {
+        selectedMovie(state) {
+            return state.selectedMovie
         }
     }
 })

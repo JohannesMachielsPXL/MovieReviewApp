@@ -9,7 +9,8 @@ import MovieService from "@/Services/MovieService";
   <MovieItem>
 
     <template #movieTitle>
-      <p>***hier moet de filmnaam komen***</p>
+      <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
+
     </template>
     <template #movieAverageRating>*** Insert average rating stars
     </template>
@@ -40,6 +41,16 @@ import MovieService from "@/Services/MovieService";
 
 
 </template>
+
+<script>
+export default {
+  data(){
+    return{
+      movieTitle: String,
+    }
+  },
+}
+</script>
 
 <style scoped>
 
