@@ -6,7 +6,6 @@ const store = createStore({
     state () {
         return {
             movies: [],
-            directors: [],
             selectedMovie:{data:{name:'none'}},
         }
     },
@@ -16,9 +15,6 @@ const store = createStore({
         },
         setSelectedMovie (state,selectedMovie){
           state.selectedMovie = selectedMovie;
-        },
-        setDirectors (state, directors) {
-            state.directors = directors;
         }
     },
     getters: {

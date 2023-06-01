@@ -2,6 +2,7 @@
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
+
 </script>
 
 <template>
@@ -9,6 +10,12 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
 
     <template #movieTitle>
       <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name}}</p>
+      <p>Title:</p>
+      <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
+      <p>Director id:</p>
+      <p> {{ this.$store.state.selectedMovie.directorId }}</p>
+      <p>Director name:  </p>
+      <p>{{ directorName }}</p>
     </template>
 
     <template #movieAverageRating>
@@ -18,6 +25,7 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
     </template>
 
     <template #movieReviews>
+      *** Insert list of movie reviews (as movieReviewItems)
       <br>
       movie reviewItem example:
       <MovieReviewItem>
@@ -36,7 +44,6 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
       </MovieReviewItem>
       <hr>
     </template>
-
     <template #createReview>Insert create review options (creates a movieReviewItem)</template>
 
   </MovieItem>
@@ -47,11 +54,13 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
 <script>
 import MovieService from "@/Services/MovieService";
 
+import DirectorService from "../Services/DirectorService";
 export default {
-  data(){
-    return{
+  data() {
+    return {
       movieTitle: String,
       scoreToAdd: 0,
+      directorName: ''
       }
   },
   methods: {
@@ -61,6 +70,7 @@ export default {
       } else {
         return this.$store.state.selectedMovie.reviewScore / this.$store.state.selectedMovie.reviewCounter + "/5";
       }
+    }
   },
   addScore() {
     console.log(this.scoreToAdd)
@@ -77,6 +87,14 @@ export default {
     this.$store.commit('setSelectedMovie',updatedMovie)
   }
 }}
+  async mounted() {
+
+    const directorId = this.$store.state.selectedMovie.directorId;
+    if (directorId) {
+      this.directorName = await DirectorService.getDirectorNameById(directorId);
+    }
+  },
+};
 </script>
 
 <style scoped>

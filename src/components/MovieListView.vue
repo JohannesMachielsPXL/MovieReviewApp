@@ -8,14 +8,16 @@
     </p>
 
     <h3>
-      Select a movie to get started!
+      Select a movie to get started
     </h3>
 
     <div id="MovieList">
       <table>
         <tbody>
-        <tr v-for = "movie in this.$store.state.movies" v-bind:key = movie.id>
-          <td><button @click="fetchMovie(movie.id)">{{movie.name}}</button></td>
+        <tr v-for="movie in this.$store.state.movies" v-bind:key=movie.id>
+          <td>
+            <button @click="fetchMovie(movie.id)">{{ movie.name }}</button>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -26,10 +28,11 @@
 
 <script>
 import MovieService from "@/services/MovieService";
+
 export default {
   name: 'Movies',
-  data(){
-    return{
+  data() {
+    return {
       movie: String,
       movieToAdd: '',
       directorToAdd: ''
@@ -62,8 +65,7 @@ export default {
       this.movie = movie.name;
       this.$store.commit('setMovies', data);
       this.$store.commit('setSelectedMovie', movie)
-        }
-    );
+    });
   }
 }
 </script>
