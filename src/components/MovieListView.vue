@@ -1,10 +1,16 @@
 <template>
   <div class="greetings">
     <h1 class="green">Welcome</h1>
+    <p>film toevoegen: <br>
+      <p> titel: <input type="text" v-model="movieToAdd"></p>
+      <p> director: <input type="text" v-model="directorToAdd"></p>
+      <button  @click="addMovie" id="addmoviebutton">+</button>
+    </p>
+
     <h3>
       Select a movie to get started
     </h3>
-    <h3>gekozen film: {{ this.movie.name }}</h3>
+
     <div id="MovieList">
       <table>
         <tbody>
@@ -18,6 +24,50 @@
   </div>
 </template>
 
+<script>
+import MovieService from "@/services/MovieService";
+export default {
+  name: 'Movies',
+  data(){
+    return{
+      movie: String,
+      movieToAdd: '',
+      directorToAdd: ''
+      }
+  },
+  methods: {
+    addMovie() {
+      let id = this.$store.state.movies.length;
+      let name = this.movieToAdd;
+      let directors = this.$store.state.directors;
+      //let directorId = this.directorToAdd;
+      let reviewScore = 0;
+      let reviewCounter = 0;
+      console.log(id);
+      console.log(name);
+      console.log(directors)
+    },
+    fetchMovie(id) {
+      MovieService.getMovieNameById(id).then((response) => {
+        let data = response.data;
+       this.$store.commit('setSelectedMovie',data);
+       this.movie = data;
+      });
+    }
+  },
+  beforeCreate() {
+    MovieService.getMovies().then((response) => {
+      let data = response.data;
+      let movie = data[0];
+      this.movie = movie.name;
+      this.$store.commit('setMovies', data);
+      this.$store.commit('setSelectedMovie', movie)
+        }
+    );
+  }
+}
+</script>
+
 <style scoped>
 h1 {
   font-weight: 500;
@@ -26,7 +76,7 @@ h1 {
 }
 
 button  {
-  background: none;
+  background: none ;
   border: none;
 }
 
@@ -43,6 +93,11 @@ h3 {
 .greetings h3 {
   text-align: center;
 }
+#addmoviebutton {
+  background: #00bd7e;
+  border-radius: 10px;
+  margin-left: 5px;
+}
 
 td {
   text-align: left;
@@ -54,35 +109,3 @@ td {
   }
 }
 </style>
-
-<script>
-import MovieService from "@/services/MovieService";
-export default {
-  name: 'Movies',
-  data(){
-    return{
-      movie: String,
-    }
-  },
-  methods: {
-    fetchMovie(id) {
-      MovieService.getMovieNameById(id).then((response) => {
-        let data = response.data;
-       this.$store.commit('setSelectedMovie',data);
-       this.movie = data;
-       console.log(data)
-        console.log(this.$store.getters.selectedMovie.data.name)
-      });
-    }
-  },
-  beforeCreate() {
-    MovieService.getMovies().then((response) => {
-      let data = response.data;
-      let movie = data[0];
-      this.movie = movie.name;
-      console.log(movie)
-      this.$store.commit('setMovies', data);
-      this.$store.commit('setSelectedMovie',movie)
-  });}
-}
-</script>

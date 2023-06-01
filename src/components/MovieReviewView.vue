@@ -2,20 +2,22 @@
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
-import MovieService from "@/Services/MovieService";
 </script>
 
 <template>
   <MovieItem>
 
     <template #movieTitle>
-      <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
+      <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name}}</p>
+    </template>
 
+    <template #movieAverageRating>
+      <p id="MovieScore">score: {{getMovieAverageScore()}}</p>
+      new score: <input v-model="scoreToAdd">
+      <button @click="addScore">+</button>
     </template>
-    <template #movieAverageRating>*** Insert average rating stars
-    </template>
+
     <template #movieReviews>
-      *** Insert list of movie reviews (as movieReviewItems)
       <br>
       movie reviewItem example:
       <MovieReviewItem>
@@ -43,15 +45,59 @@ import MovieService from "@/Services/MovieService";
 </template>
 
 <script>
+import MovieService from "@/Services/MovieService";
+
 export default {
   data(){
     return{
       movieTitle: String,
-    }
+      scoreToAdd: 0,
+      }
   },
-}
+  methods: {
+    getMovieAverageScore() {
+      if (this.$store.state.selectedMovie.reviewCounter === 0) {
+        return "no score";
+      } else {
+        return this.$store.state.selectedMovie.reviewScore / this.$store.state.selectedMovie.reviewCounter + "/5";
+      }
+  },
+  addScore() {
+    console.log(this.scoreToAdd)
+    const {id, reviewScore, reviewCounter} = this.$store.state.selectedMovie;
+    const newScore = reviewScore + +this.scoreToAdd;
+    const newScoreCounter = reviewCounter + 1;
+
+    const updatedMovie = {
+      ...this.$store.state.selectedMovie,
+      reviewScore: newScore,
+      reviewCounter: newScoreCounter
+    }
+    MovieService.updateMovieScore(id, updatedMovie)
+    this.$store.commit('setSelectedMovie',updatedMovie)
+  }
+}}
 </script>
 
 <style scoped>
+
+button {
+  border-radius: 20px;
+  background: #00bd7e;
+  border: none;
+  margin-left: 5px;
+}
+
+button:hover {
+  background: #008458;
+}
+
+input {
+  border-radius: 10px;
+  width: 50px;
+  text-align: center;
+  border-width: 1px;
+
+}
 
 </style>
