@@ -4,11 +4,11 @@
     <h3>
       Select a movie to get started
     </h3>
-    <h3>gekozen film: {{selectedMovie.name}}</h3>
+    <h3>gekozen film: {{ this.movie.name}}</h3>
     <div id="MovieList">
       <table>
         <tbody>
-        <tr v-for = "movie in movies" v-bind:key = movie.id>
+        <tr v-for = "movie in this.$store.state.movies.data" v-bind:key = movie.id>
           <td><button @click="fetchMovie(movie.id)">{{movie.name}}</button></td>
         </tr>
         </tbody>
@@ -61,24 +61,26 @@ export default {
   name: 'Movies',
   data(){
     return{
-      movies : [],
-      selectedMovie: ''
+      movie: String,
     }
   },
   methods: {
-    getMovies(){
-      MovieService.getMovies().then((response) => {
-        this.movies = response.data;
-      });
-    },
     fetchMovie(id) {
       MovieService.getMovieNameById(id).then((response) => {
-        this.selectedMovie = response.data;
+        let data = response.data;
+       this.$store.commit('setSelectedMovie',{data,});
+       this.movie = data;
       });
     }
   },
-  created() {
-    this.getMovies()
-  }
+  beforeCreate() {
+    MovieService.getMovies().then((response) => {
+      let data = response.data;
+      let movie = data[0];
+      this.movie = movie;
+      this.$store.commit('setMovies',{ data,});
+      this.$store.commit('setSelectedMovie',{ movie,})
+      console.log(this.$store.state.selectedMovie.movie.name)
+  });}
 }
 </script>

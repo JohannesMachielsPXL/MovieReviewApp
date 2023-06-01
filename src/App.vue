@@ -13,7 +13,7 @@ import MovieReview from "@/components/MovieReviewView.vue";
   </header>
 
   <main>
-    <MovieReview />
+    <MovieReview/>
   </main>
 </template>
 
