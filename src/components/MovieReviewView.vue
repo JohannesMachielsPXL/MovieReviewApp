@@ -2,12 +2,15 @@
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
+import MovieService from "@/Services/MovieService";
 </script>
 
 <template>
   <MovieItem>
 
-    <template #movieTitle>*** Insert Title of selected movie</template>
+    <template #movieTitle>
+      <p>***hier moet de filmnaam komen***</p>
+    </template>
     <template #movieAverageRating>*** Insert average rating stars
     </template>
     <template #movieReviews>

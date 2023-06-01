@@ -22,6 +22,11 @@
   display: flex;
 }
 
+button {
+  background: none;
+  border: none;
+}
+
 .reviewDetails {
   flex: 1;
   margin-left: 1rem;
