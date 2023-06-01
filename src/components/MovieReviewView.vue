@@ -2,15 +2,17 @@
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
-import MovieService from "@/Services/MovieService";
-</script>
 
+</script>
 <template>
   <MovieItem>
-
     <template #movieTitle>
+      <p>Title:</p>
       <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
-
+      <p>Director id:</p>
+      <p> {{ this.$store.state.selectedMovie.directorId }}</p>
+      <p>Director name:  </p>
+      <p>{{ directorName }}</p>
     </template>
     <template #movieAverageRating>*** Insert average rating stars
     </template>
@@ -34,24 +36,26 @@ import MovieService from "@/Services/MovieService";
       </MovieReviewItem>
       <hr>
     </template>
-
     <template #createReview>Insert create review options (creates a movieReviewItem)</template>
-
   </MovieItem>
-
-
 </template>
-
 <script>
+import DirectorService from "../Services/DirectorService";
 export default {
-  data(){
-    return{
+  data() {
+    return {
       movieTitle: String,
+      directorName: '',
+    };
+  },
+  async mounted() {
+
+    const directorId = this.$store.state.selectedMovie.directorId;
+    if (directorId) {
+      this.directorName = await DirectorService.getDirectorNameById(directorId);
     }
   },
-}
+};
 </script>
-
 <style scoped>
-
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="greetings">
-    <h1 class="green">Welcome</h1>
+  <div className="greetings">
+    <h1 className="green">Welcome</h1>
     <h3>
       Select a movie to get started
     </h3>
@@ -8,8 +8,10 @@
     <div id="MovieList">
       <table>
         <tbody>
-        <tr v-for = "movie in this.$store.state.movies" v-bind:key = movie.id>
-          <td><button @click="fetchMovie(movie.id)">{{movie.name}}</button></td>
+        <tr v-for="movie in this.$store.state.movies" v-bind:key=movie.id>
+          <td>
+            <button @click="fetchMovie(movie.id)">{{ movie.name }}</button>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -25,7 +27,7 @@ h1 {
   top: -10px;
 }
 
-button  {
+button {
   background: none;
   border: none;
 }
@@ -47,6 +49,7 @@ h3 {
 td {
   text-align: left;
 }
+
 @media (min-width: 1024px) {
   .greetings h1,
   .greetings h3 {
@@ -57,10 +60,11 @@ td {
 
 <script>
 import MovieService from "@/services/MovieService";
+
 export default {
   name: 'Movies',
-  data(){
-    return{
+  data() {
+    return {
       movie: String,
     }
   },
@@ -68,10 +72,10 @@ export default {
     fetchMovie(id) {
       MovieService.getMovieNameById(id).then((response) => {
         let data = response.data;
-       this.$store.commit('setSelectedMovie',data);
-       this.movie = data;
-       console.log(data)
-        console.log(this.$store.getters.selectedMovie.data.name)
+        this.$store.commit('setSelectedMovie', data);
+        this.movie = data;
+        // console.log(data)
+        // console.log(this.$store.getters.selectedMovie.data.name)
       });
     }
   },
@@ -82,7 +86,8 @@ export default {
       this.movie = movie.name;
       console.log(movie)
       this.$store.commit('setMovies', data);
-      this.$store.commit('setSelectedMovie',movie)
-  });}
+      this.$store.commit('setSelectedMovie', movie)
+    });
+  }
 }
 </script>
