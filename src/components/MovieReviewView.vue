@@ -9,13 +9,9 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
   <MovieItem>
 
     <template #movieTitle>
-      <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name}}</p>
-      <p>Title:</p>
       <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
-      <p>Director id:</p>
-      <p> {{ this.$store.state.selectedMovie.directorId }}</p>
-      <p>Director name:  </p>
-      <p>{{ directorName }}</p>
+      <p>Director id: {{ this.$store.state.selectedMovie.directorId }}</p>
+      <p>Director name: {{ directorName }} </p>
     </template>
 
     <template #movieAverageRating>
@@ -70,7 +66,6 @@ export default {
       } else {
         return this.$store.state.selectedMovie.reviewScore / this.$store.state.selectedMovie.reviewCounter + "/5";
       }
-    }
   },
   addScore() {
     console.log(this.scoreToAdd)
@@ -85,16 +80,15 @@ export default {
     }
     MovieService.updateMovieScore(id, updatedMovie)
     this.$store.commit('setSelectedMovie',updatedMovie)
-  }
-}}
+  },
   async mounted() {
 
     const directorId = this.$store.state.selectedMovie.directorId;
     if (directorId) {
       this.directorName = await DirectorService.getDirectorNameById(directorId);
     }
-  },
-};
+  }
+}};
 </script>
 
 <style scoped>
