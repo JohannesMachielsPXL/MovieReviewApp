@@ -8,7 +8,7 @@
     </p>
 
     <h3>
-      Select a movie to get started
+      Select a movie to get started!
     </h3>
 
     <div id="MovieList">
