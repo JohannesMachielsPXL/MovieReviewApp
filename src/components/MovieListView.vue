@@ -14,7 +14,7 @@
         <tbody>
         <tr v-for="movie in $store.state.movies" v-bind:key=movie.id>
           <td>
-            <button @click="fetchMovie(movie.id)" v-model:src="director">{{ movie.name }} (director: {{ this.director.name }})</button>
+            <button @click="fetchMovie(movie.id)">{{ movie.name }}</button>
             <span >
 
             </span>
