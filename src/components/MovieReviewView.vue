@@ -21,22 +21,22 @@ import movieService from "@/Services/MovieService";
           <form>
             <p>Change title to: </p>
             <p>
-              <input v-model="updatedMovie.name"/>
+              <input v-model="updatedMovieName.name"/>
               <button @click="saveNewTitle">Save title</button>
             </p>
             <p>Change director to: </p>
             <p>
-              <input v-model="updatedMovie.directorId"/>
+              <input v-model="updatedMovieName.directorId"/>
               <button @click="saveNewDirector()">Save director</button>
             </p>
             <p>Change Review score to: </p>
             <p>
-              <input v-model="updatedMovie.reviewScore"/>
+              <input v-model="updatedMovieName.reviewScore"/>
               <button>Save review score</button>
             </p>
             <p>Change review counter to: </p>
             <p>
-              <input v-model="updatedMovie.reviewCounter"/>
+              <input v-model="updatedMovieName.reviewCounter"/>
               <button>Save review counter</button>
             </p>
 <!--            <button @click="movieService.updateMovie(updatedMovie.id, updatedMovie); movieService.updateDirector(updatedDirector.id, updatedDirector)">Save changes</button>-->
@@ -87,12 +87,9 @@ export default {
     return {
       movieTitle: String,
       scoreToAdd: 0,
-      updatedMovie: {
+      updatedMovieName: {
         id: this.$store.state.selectedMovie.id ,
         name: '',
-        directorId:'',
-        reviewScore: '',
-        reviewCounter: '',
       }
     }
   },
@@ -103,10 +100,11 @@ export default {
 },
     saveNewTitle() {
       const id = this.$store.state.selectedMovie.id; // Get the movie ID
-      const updatedMovie = { ...this.updatedMovie, name: this.updatedMovie.name };
+      const updatedMovie = { ...this.updatedMovieName, name: this.updatedMovieName.name };
       console.log(updatedMovie)
       // Get the updated title
-      axios.put('http://localhost:3000/movies/' + id, updatedMovie)
+      //
+          axios.patch('http://localhost:3000/movies/' + id, updatedMovie)
           .then((response) => console.log(response))
           .catch((error) => console.log(error));
       // MovieService.updateMovieTitle(id, { name: updatedTitle })
