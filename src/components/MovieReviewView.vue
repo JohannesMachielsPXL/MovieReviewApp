@@ -8,10 +8,14 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
 <template>
   <MovieItem>
     <template #movieTitle>
-      <p>Title:</p>
-      <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
-      <p>Director: {{ this.$store.state.selectedDirector.name }}</p>
-      <p v-bind="director" > {{director}}</p>
+      <div v-if="this.$store.state.selectedMovie.name" id="ifMovieSelectedView">
+        <p >Title: {{ this.$store.state.selectedMovie.name }}</p>
+        <p>Director: {{ this.$store.state.selectedDirector.name }} </p>
+        <button>Change director</button>
+      </div>
+      <div v-else>
+        <h2>Please select a movie from the list</h2>
+      </div>
     </template>
     <template #movieAverageRating>
       <p id="MovieScore">score: {{ getMovieAverageScore() }}</p>

@@ -72,6 +72,7 @@ export default {
         });
       }
     },
+
     // getDirectorName(directorId) {
     //   const director = this.$store.state.directors.find(
     //       (director) => director.id === directorId
@@ -85,7 +86,7 @@ export default {
       let movie = data[0];
       this.movie = movie.name;
       this.$store.commit('setMovies', data);
-      this.$store.commit('setSelectedMovie', movie)
+      // this.$store.commit('setSelectedMovie', movie)
 
     });
 
