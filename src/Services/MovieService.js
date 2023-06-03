@@ -15,6 +15,9 @@ class MovieService{
     updateMovieScore(id,data) {
         return axios.put(MOVIE_API_BASE_URL + id, data)
     }
+    updateMovie(id, data) {
+        return axios.put(MOVIE_API_BASE_URL + id, data)
+    }
 }
 
 export default new MovieService();

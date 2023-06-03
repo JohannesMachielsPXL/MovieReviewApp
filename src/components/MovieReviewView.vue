@@ -30,7 +30,7 @@ function hideForm() {
             <p>Change director to: <input v-model="this.$store.state.selectedDirector.name"/></p>
             <p>Change Review score to: <input v-model="this.$store.state.selectedMovie.reviewScore"/></p>
             <p>Change review counter to: <input v-model="this.$store.state.selectedMovie.reviewCounter"/></p>
-            <button @click="hideForm()">Save changes</button>
+            <button @click="saveChanges()">Save changes</button>
           </form>
         </div>
       </div>
@@ -99,6 +99,23 @@ export default {
       }
       MovieService.updateMovieScore(id, updatedMovie)
       this.$store.commit('setSelectedMovie', updatedMovie)
+    },
+    saveChanges() {
+      const updatedMovie = {
+        name: this.$store.state.selectedMovie.name,
+        director: this.$store.state.selectedDirector.name,
+        reviewScore: this.$store.state.selectedMovie.reviewScore,
+        reviewCounter: this.$store.state.selectedMovie.reviewCounter,
+      };
+      console.log(name)
+      MovieService.updateMovie(this.$store.state.selectedMovie.id, updatedMovie)
+          .then(() => {
+            this.$store.commit('setSelectedMovie', updatedMovie);
+            this.hideForm();
+          })
+          .catch((error) => {
+            console.error('Error updating movie:', error);
+          });
     },
   }
 };
