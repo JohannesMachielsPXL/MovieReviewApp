@@ -8,41 +8,15 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
 <template>
   <MovieItem>
     <template #movieTitle>
-      <p>Title:</p>
       <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
-      <p>Director id:</p>
-      <p> {{ this.$store.state.selectedMovie.directorId }}</p>
-      <p>Director name: </p>
-      <p v-model:"director"></p>
-      <!--      <p>{{ this.$store.state.selectedDirector.name</p>-->
-      <!--      <p>{{ this.$store.state.selectedDirector.fetchDirector(this.$store.state.selectedMovie.directorId) }}</p>-->
+      <p>Director: {{ this.$store.state.selectedDirector.name }}</p>
+      <p v-bind="director" > {{director}}</p>
     </template>
     <template #movieAverageRating>
       <p id="MovieScore">score: {{ getMovieAverageScore() }}</p>
       new score: <input v-model="scoreToAdd">
       <button @click="addScore">+</button>
     </template>
-    <template #movieReviews>
-      *** Insert list of movie reviews (as movieReviewItems)
-      <br>
-      movie reviewItem example:
-      <MovieReviewItem>
-        <template #icon2>
-          <MovieRatingIcon/>
-        </template>
-        <template #reviewCreatorName>
-          Franske Ferdinand
-        </template>
-        <template #movieRatingFromReviewCreator>
-          x x x x x
-        </template>
-        <template #movieReviewFromCreator>
-          Franske Ferdinand vind dees ne ferme film
-        </template>
-      </MovieReviewItem>
-      <hr>
-    </template>
-    <template #createReview>Insert create review options (creates a movieReviewItem)</template>
     <template #movieReviews>
       *** Insert list of movie reviews (as movieReviewItems)
       <br>

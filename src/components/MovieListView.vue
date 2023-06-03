@@ -12,9 +12,9 @@
     <div id="MovieList">
       <table>
         <tbody>
-        <tr v-for="movie in $store.state.movies" v-bind:key=movie.id>
+        <tr v-for="(movie) in $store.state.movies" v-bind:key=movie.id>
           <td>
-            <button @click="fetchMovie(movie.id)" v-model:src="director">{{ movie.name }} (director: {{ this.director.name }})</button>
+            <button @click="fetchMovie(movie.id)" >{{ movie.name }} </button>
             <span >
 
             </span>
@@ -68,7 +68,9 @@ export default {
             let data = response;
             this.$store.commit('setSelectedDirector', data);
             this.director = data;
+            return this.director;
           }
+
         });
       }
     },
@@ -84,6 +86,7 @@ export default {
       let data = response.data;
       let movie = data[0];
       this.movie = movie.name;
+
       this.$store.commit('setMovies', data);
       this.$store.commit('setSelectedMovie', movie)
 
