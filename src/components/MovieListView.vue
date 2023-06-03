@@ -1,15 +1,17 @@
 <template>
   <div class="greetings">
     <h1 class="green">Welcome</h1>
+    <div class="border filler">
+
     <p>film toevoegen:</p>
     <p> titel: <input type="text" v-model="movieToAdd"></p>
     <p> director: <input type="text" v-model="directorToAdd"></p>
     <button @click="addMovie" id="addmoviebutton">+</button>
-    <br>
+    <br></div>
     <h3>
       Select a movie to get started
     </h3>
-    <div id="MovieList">
+    <div id="MovieList" class="border filler">
       <table>
         <tbody>
         <tr v-for="(movie) in $store.state.movies" v-bind:key=movie.id>
@@ -130,6 +132,17 @@ td {
   text-align: left;
 }
 
+.border {
+  border-style: solid;
+  border-color: #00bd7e;
+  border-radius: 10px;
+  border-width: 1px;
+}
+
+.filler {
+  margin: 5px;
+  padding: 5px;
+}
 @media (min-width: 1024px) {
   .greetings h1,
   .greetings h3 {

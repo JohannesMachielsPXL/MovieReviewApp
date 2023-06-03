@@ -3,24 +3,47 @@ import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
 
-</script>
+function showForm() {
+  const element = document.getElementById("changeMovieProperties");
+  element.classList.add("visible");
+}
 
+function hideForm() {
+  const element = document.getElementById("changeMovieProperties");
+  element.classList.add("hidden");
+}
+</script>
 <template>
   <MovieItem>
     <template #movieTitle>
-      <div v-if="this.$store.state.selectedMovie.name" id="ifMovieSelectedView">
-        <p >Title: {{ this.$store.state.selectedMovie.name }}</p>
-        <p>Director: {{ this.$store.state.selectedDirector.name }} </p>
-        <button>Change director</button>
+      <div v-if="this.$store.state.selectedMovie.name">
+        <div id="ifMovieSelectedView" class="border filler">
+          <p>Title: {{ this.$store.state.selectedMovie.name }}</p>
+          <p>Director: {{ this.$store.state.selectedDirector.name }}</p>
+          <p>Review score: {{ this.$store.state.selectedMovie.reviewScore }}</p>
+          <p>Review counter: {{ this.$store.state.selectedMovie.reviewCounter }}</p>
+          <button @click="showForm()">Change movie properties</button>
+        </div>
+        <div id="changeMovieProperties" class="hidden changeMovieProperties border filler">
+          <form>
+            <p>Change title to: <input v-model="this.$store.state.selectedMovie.name"/></p>
+            <p>Change director to: <input v-model="this.$store.state.selectedDirector.name"/></p>
+            <p>Change Review score to: <input v-model="this.$store.state.selectedMovie.reviewScore"/></p>
+            <p>Change review counter to: <input v-model="this.$store.state.selectedMovie.reviewCounter"/></p>
+            <button @click="hideForm()">Save changes</button>
+          </form>
+        </div>
       </div>
       <div v-else>
         <h2>Please select a movie from the list</h2>
       </div>
     </template>
     <template #movieAverageRating>
-      <p id="MovieScore">score: {{ getMovieAverageScore() }}</p>
-      new score: <input v-model="scoreToAdd">
-      <button @click="addScore">+</button>
+      <div class="border filler">
+        <p id="MovieScore">score: {{ getMovieAverageScore() }}</p>
+        new score: <input v-model="scoreToAdd">
+        <button @click="addScore">+</button>
+      </div>
     </template>
     <template #movieReviews>
       *** Insert list of movie reviews (as movieReviewItems)
@@ -46,7 +69,6 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
   </MovieItem>
 </template>
 <script>
-import DirectorService from "../Services/DirectorService";
 import MovieService from "@/Services/MovieService";
 
 export default {
@@ -54,7 +76,6 @@ export default {
     return {
       movieTitle: String,
       scoreToAdd: 0,
-      director: ''
     }
   },
   methods: {
@@ -79,23 +100,16 @@ export default {
       MovieService.updateMovieScore(id, updatedMovie)
       this.$store.commit('setSelectedMovie', updatedMovie)
     },
-    async mounted() {
-      let directorId = this.$store.state.selectedMovie.directorId;
-      if (directorId) {
-        this.directorName = DirectorService.getDirectorNameById(directorId);
-        console.log(this.directorName)
-      }
-    }
   }
 };
 </script>
 <style scoped>
-
 button {
   border-radius: 20px;
   background: #00bd7e;
   border: none;
   margin-left: 5px;
+  padding: 5px;
 }
 
 button:hover {
@@ -103,11 +117,34 @@ button:hover {
 }
 
 input {
+  padding: 5px;
   border-radius: 10px;
-  width: 50px;
   text-align: center;
   border-width: 1px;
-
+  width: auto;
 }
 
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.border {
+  border-style: solid;
+  border-color: #00bd7e;
+  border-radius: 10px;
+  border-width: 1px;
+}
+
+.filler {
+  margin: 5px;
+  padding: 5px;
+}
+
+.changeMovieProperties {
+
+}
 </style>
