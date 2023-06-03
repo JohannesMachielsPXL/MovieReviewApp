@@ -5,6 +5,10 @@ const DIRECTOR_API_BASE_URL = 'http://localhost:3000/directors/'
 
 class MovieService{
 
+    postNewMovie(data) {
+        console.log(data)
+        return axios.post(MOVIE_API_BASE_URL, data)
+    }
     getMovies(){
         return axios.get(MOVIE_API_BASE_URL);
     }

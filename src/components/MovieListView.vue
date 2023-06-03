@@ -4,9 +4,9 @@
     <div class="border filler">
 
     <p>film toevoegen:</p>
-    <p> titel: <input type="text" v-model="movieToAdd"></p>
-    <p> director: <input type="text" v-model="directorToAdd"></p>
-    <button @click="addMovie" id="addmoviebutton">+</button>
+    <p> titel: <input type="text" v-model="newMovie.name"></p>
+    <p> director: <input type="text" v-model="newMovie.directorId"></p>
+    <button @click="postMovie" id="addmoviebutton">+</button>
     <br></div>
     <h3>
       Select a movie to get started
@@ -32,29 +32,38 @@
 <script>
 import MovieService from "@/services/MovieService";
 import DirectorService from "@/Services/DirectorService";
+import axios from "axios";
 
 export default {
   name: 'Movies',
   data() {
     return {
       movie: String,
-      movieToAdd: '',
-      directorToAdd: '',
-      director: "",
+      newMovie : {
+        id: this.$store.state.movies.length,
+        name : '',
+        directorId: '',
+        reviewScore: 0,
+        reviewCounter: 0
+      }
     }
   },
   methods: {
-    addMovie() {
-      let id = this.$store.state.movies.length;
-      let name = this.movieToAdd;
-      let directors = this.$store.state.directors;
-      //let directorId = this.directorToAdd;
-      let reviewScore = 0;
-      let reviewCounter = 0;
-      console.log(id);
-      console.log(name);
-      console.log(directors)
-    },
+    postMovie() {
+      const newMovie = {
+        ...this.newMovie,
+        directorId: 1
+      }
+
+      axios.post('http://localhost:3000/movies',newMovie)
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error));
+
+      MovieService.getMovies().then((response) => {
+            let data = response.data;
+            this.$store.commit('setMovies', data);
+    })},
+
     fetchMovie(id) {
       MovieService.getMovieNameById(id).then((response) => {
         let data = response.data;

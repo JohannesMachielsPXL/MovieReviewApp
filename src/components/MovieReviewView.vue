@@ -4,13 +4,8 @@ import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
 import movieService from "@/Services/MovieService";
 
-function showForm() {
-  const element = document.getElementById("changeMovieProperties");
-  element.classList.add("visible");
-}
-
-
 </script>
+
 <template>
   <MovieItem>
     <template #movieTitle>
@@ -27,7 +22,7 @@ function showForm() {
             <p>Change title to: </p>
             <p>
               <input v-model="updatedMovie.name"/>
-              <button @click="saveNewTitle()">Save title</button>
+              <button @click="saveNewTitle">Save title</button>
             </p>
             <p>Change director to: </p>
             <p>
@@ -51,6 +46,7 @@ function showForm() {
       <div v-else>
         <h2>Please select a movie from the list</h2>
       </div>
+
     </template>
     <template #movieAverageRating>
       <div class="border filler">
@@ -59,6 +55,7 @@ function showForm() {
         <button @click="addScore">+</button>
       </div>
     </template>
+
     <template #movieReviews>
       *** Insert list of movie reviews (as movieReviewItems)
       <br>
@@ -91,7 +88,7 @@ export default {
       movieTitle: String,
       scoreToAdd: 0,
       updatedMovie: {
-        id: '',
+        id: this.$store.state.selectedMovie.id ,
         name: '',
         directorId:'',
         reviewScore: '',
@@ -100,10 +97,17 @@ export default {
     }
   },
   methods: {
+    showForm() {
+  const element = document.getElementById("changeMovieProperties");
+  element.classList.add("visible");
+},
     saveNewTitle() {
-      const { id } = this.$store.state.selectedMovie.id; // Get the movie ID
-      const updatedTitle = { ...this.updatedMovie, name: this.updatedMovie.name }; // Get the updated title
-      axios.put('http://localhost:3000/movies/', updatedTitle).then((response) => console.log(response))
+      const id = this.$store.state.selectedMovie.id; // Get the movie ID
+      const updatedMovie = { ...this.updatedMovie, name: this.updatedMovie.name };
+      console.log(updatedMovie)
+      // Get the updated title
+      axios.put('http://localhost:3000/movies/' + id, updatedMovie)
+          .then((response) => console.log(response))
           .catch((error) => console.log(error));
       // MovieService.updateMovieTitle(id, { name: updatedTitle })
       //     .then(response => {
@@ -176,6 +180,7 @@ export default {
 };
 </script>
 <style scoped>
+
 button {
   border-radius: 20px;
   background: #00bd7e;

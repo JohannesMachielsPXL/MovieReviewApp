@@ -33,29 +33,22 @@
       "id": 1,
       "name": "Avatar",
       "directorId": 0,
-      "reviewScore": 32,
-      "reviewCounter": 8
+      "reviewScore": 18,
+      "reviewCounter": 4
     },
     {
       "id": 2,
       "name": "The Lion King",
       "directorId": 1,
-      "reviewScore": 0,
-      "reviewCounter": 2
+      "reviewScore": 15,
+      "reviewCounter": 3
     },
     {
       "id": 3,
       "name": "Frozen",
       "directorId": 2,
-      "reviewScore": 3,
+      "reviewScore": 4,
       "reviewCounter": 1
-    },
-    {
-      "id": 4,
-      "name": "Titanic222",
-      "directorId": 0,
-      "reviewScore": 0,
-      "reviewCounter": 0
     }
   ],
   "directors": [
