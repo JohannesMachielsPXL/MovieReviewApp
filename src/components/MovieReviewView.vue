@@ -8,10 +8,7 @@ function showForm() {
   element.classList.add("visible");
 }
 
-function hideForm() {
-  const element = document.getElementById("changeMovieProperties");
-  element.classList.add("hidden");
-}
+
 </script>
 <template>
   <MovieItem>
@@ -37,6 +34,7 @@ function hideForm() {
       <div v-else>
         <h2>Please select a movie from the list</h2>
       </div>
+
     </template>
     <template #movieAverageRating>
       <div class="border filler">
@@ -86,6 +84,10 @@ export default {
         return this.$store.state.selectedMovie.reviewScore / this.$store.state.selectedMovie.reviewCounter + "/5";
       }
     },
+    hideForm() {
+      const element = document.getElementById("changeMovieProperties");
+      element.classList.add("hidden");
+    },
     addScore() {
       console.log(this.scoreToAdd)
       const {id, reviewScore, reviewCounter} = this.$store.state.selectedMovie;
@@ -107,8 +109,11 @@ export default {
         reviewScore: this.$store.state.selectedMovie.reviewScore,
         reviewCounter: this.$store.state.selectedMovie.reviewCounter,
       };
-      console.log(name)
-      MovieService.updateMovie(this.$store.state.selectedMovie.id, updatedMovie)
+
+      this.$store.dispatch('updateMovie', {
+        index: this.$store.state.selectedMovie.id,
+        movie: updatedMovie,
+      })
           .then(() => {
             this.$store.commit('setSelectedMovie', updatedMovie);
             this.hideForm();
