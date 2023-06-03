@@ -2,6 +2,7 @@
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
+import movieService from "@/Services/MovieService";
 
 function showForm() {
   const element = document.getElementById("changeMovieProperties");
@@ -23,18 +24,33 @@ function showForm() {
         </div>
         <div id="changeMovieProperties" class="hidden changeMovieProperties border filler">
           <form>
-            <p>Change title to: <input v-model="this.$store.state.selectedMovie.name"/></p>
-            <p>Change director to: <input v-model="this.$store.state.selectedDirector.name"/></p>
-            <p>Change Review score to: <input v-model="this.$store.state.selectedMovie.reviewScore"/></p>
-            <p>Change review counter to: <input v-model="this.$store.state.selectedMovie.reviewCounter"/></p>
-            <button @click="saveChanges()">Save changes</button>
+            <p>Change title to: </p>
+            <p>
+              <input v-model="updatedMovie.name"/>
+              <button @click="saveNewTitle()">Save title</button>
+            </p>
+            <p>Change director to: </p>
+            <p>
+              <input v-model="updatedMovie.directorId"/>
+              <button @click="saveNewDirector()">Save director</button>
+            </p>
+            <p>Change Review score to: </p>
+            <p>
+              <input v-model="updatedMovie.reviewScore"/>
+              <button>Save review score</button>
+            </p>
+            <p>Change review counter to: </p>
+            <p>
+              <input v-model="updatedMovie.reviewCounter"/>
+              <button>Save review counter</button>
+            </p>
+<!--            <button @click="movieService.updateMovie(updatedMovie.id, updatedMovie); movieService.updateDirector(updatedDirector.id, updatedDirector)">Save changes</button>-->
           </form>
         </div>
       </div>
       <div v-else>
         <h2>Please select a movie from the list</h2>
       </div>
-
     </template>
     <template #movieAverageRating>
       <div class="border filler">
@@ -68,15 +84,49 @@ function showForm() {
 </template>
 <script>
 import MovieService from "@/Services/MovieService";
-
+import axios from "axios";
 export default {
   data() {
     return {
       movieTitle: String,
       scoreToAdd: 0,
+      updatedMovie: {
+        id: '',
+        name: '',
+        directorId:'',
+        reviewScore: '',
+        reviewCounter: '',
+      }
     }
   },
   methods: {
+    saveNewTitle() {
+      const { id } = this.$store.state.selectedMovie.id; // Get the movie ID
+      const updatedTitle = { ...this.updatedMovie, name: this.updatedMovie.name }; // Get the updated title
+      axios.put('http://localhost:3000/movies/', updatedTitle).then((response) => console.log(response))
+          .catch((error) => console.log(error));
+      // MovieService.updateMovieTitle(id, { name: updatedTitle })
+      //     .then(response => {
+      //       // Handle success
+      //       console.log('Title updated successfully', response.data);
+      //     })
+      //     .catch(error => {
+      //       // Handle error
+      //       console.error('Error updating title', error);
+      //     });
+    },
+    saveNewDirector() {
+      const { id, directorId } = this.updatedMovie;
+      MovieService.updateDirectorName(id, { directorId })
+          .then(response => {
+            // Handle success
+            console.log('Director updated successfully', response.data);
+          })
+          .catch(error => {
+            // Handle error
+            console.error('Error updating director', error);
+          });
+    },
     getMovieAverageScore() {
       if (this.$store.state.selectedMovie.reviewCounter === 0) {
         return "no score";
@@ -102,26 +152,26 @@ export default {
       MovieService.updateMovieScore(id, updatedMovie)
       this.$store.commit('setSelectedMovie', updatedMovie)
     },
-    saveChanges() {
-      const updatedMovie = {
-        name: this.$store.state.selectedMovie.name,
-        director: this.$store.state.selectedDirector.name,
-        reviewScore: this.$store.state.selectedMovie.reviewScore,
-        reviewCounter: this.$store.state.selectedMovie.reviewCounter,
-      };
-
-      this.$store.dispatch('updateMovie', {
-        index: this.$store.state.selectedMovie.id,
-        movie: updatedMovie,
-      })
-          .then(() => {
-            this.$store.commit('setSelectedMovie', updatedMovie);
-            this.hideForm();
-          })
-          .catch((error) => {
-            console.error('Error updating movie:', error);
-          });
-    },
+    // saveChanges() {
+    //   const updatedMovie = {
+    //     name: this.$store.state.selectedMovie.name,
+    //     director: this.$store.state.selectedDirector.name,
+    //     reviewScore: this.$store.state.selectedMovie.reviewScore,
+    //     reviewCounter: this.$store.state.selectedMovie.reviewCounter,
+    //   };
+    //
+    //   this.$store.dispatch('updateMovie', {
+    //     index: this.$store.state.selectedMovie.id,
+    //     movie: updatedMovie,
+    //   })
+    //       .then(() => {
+    //         this.$store.commit('setSelectedMovie', updatedMovie);
+    //         this.hideForm();
+    //       })
+    //       .catch((error) => {
+    //         console.error('Error updating movie:', error);
+    //       });
+    // },
   }
 };
 </script>

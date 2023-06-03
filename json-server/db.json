@@ -26,28 +26,35 @@
       "id": 0,
       "name": "Titanic",
       "directorId": 0,
-      "reviewScore": "00000033333300",
-      "reviewCounter": 14
+      "reviewScore": 0,
+      "reviewCounter": 0
     },
     {
       "id": 1,
       "name": "Avatar",
       "directorId": 0,
-      "reviewScore": "0000000",
-      "reviewCounter": 7
+      "reviewScore": 32,
+      "reviewCounter": 8
     },
     {
       "id": 2,
       "name": "The Lion King",
       "directorId": 1,
-      "reviewScore": "",
-      "reviewCounter": 0
+      "reviewScore": 0,
+      "reviewCounter": 2
     },
     {
       "id": 3,
       "name": "Frozen",
       "directorId": 2,
-      "reviewScore": "",
+      "reviewScore": 3,
+      "reviewCounter": 1
+    },
+    {
+      "id": 4,
+      "name": "Titanic222",
+      "directorId": 0,
+      "reviewScore": 0,
       "reviewCounter": 0
     }
   ],

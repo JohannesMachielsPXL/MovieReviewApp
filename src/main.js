@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
 import App from './App.vue'
-let url = 'http://localhost:3000/movies/';
 const store = createStore({
     state () {
         return {
