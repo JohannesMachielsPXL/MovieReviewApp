@@ -8,6 +8,7 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
 <template>
   <MovieItem>
     <template #movieTitle>
+      <p>Title:</p>
       <p id="MovieTitle"> {{ this.$store.state.selectedMovie.name }}</p>
       <p>Director: {{ this.$store.state.selectedDirector.name }}</p>
       <p v-bind="director" > {{director}}</p>

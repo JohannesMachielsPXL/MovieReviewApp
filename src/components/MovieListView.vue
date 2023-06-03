@@ -68,9 +68,7 @@ export default {
             let data = response;
             this.$store.commit('setSelectedDirector', data);
             this.director = data;
-            return this.director;
           }
-
         });
       }
     },
@@ -86,7 +84,6 @@ export default {
       let data = response.data;
       let movie = data[0];
       this.movie = movie.name;
-
       this.$store.commit('setMovies', data);
       this.$store.commit('setSelectedMovie', movie)
 
