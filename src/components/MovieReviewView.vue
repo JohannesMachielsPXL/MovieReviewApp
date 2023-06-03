@@ -2,7 +2,6 @@
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
-import movieService from "@/Services/MovieService";
 
 </script>
 
@@ -26,28 +25,27 @@ import movieService from "@/Services/MovieService";
             </p>
             <p>Change director to: </p>
             <p>
-              <input v-model="updatedMovieName.directorId"/>
-              <button @click="saveNewDirector()">Save director</button>
+              <input v-model="updatedDirectorName.name"/>
+              <button @click="saveNewDirector">Save director</button>
             </p>
             <p>Change Review score to: </p>
             <p>
-              <input v-model="updatedMovieName.reviewScore"/>
-              <button>Save review score</button>
+              <input v-model="updatedMovieReviewScore.reviewScore"/>
+              <button @click="saveNewReviewScore">Save review score</button>
             </p>
             <p>Change review counter to: </p>
             <p>
-              <input v-model="updatedMovieName.reviewCounter"/>
-              <button>Save review counter</button>
+              <input v-model="updatedMovieReviewCounter.reviewCounter"/>
+              <button @click="saveNewReviewCounter">Save review counter</button>
             </p>
-<!--            <button @click="movieService.updateMovie(updatedMovie.id, updatedMovie); movieService.updateDirector(updatedDirector.id, updatedDirector)">Save changes</button>-->
           </form>
         </div>
       </div>
       <div v-else>
         <h2>Please select a movie from the list</h2>
       </div>
-
     </template>
+
     <template #movieAverageRating>
       <div class="border filler">
         <p id="MovieScore">score: {{ getMovieAverageScore() }}</p>
@@ -88,9 +86,33 @@ export default {
       movieTitle: String,
       scoreToAdd: 0,
       updatedMovieName: {
-        id: this.$store.state.selectedMovie.id ,
+        id: this.$store.state.selectedMovie.id,
         name: '',
-      }
+      },
+      updatedMovieReviewScore: {
+        id: this.$store.state.selectedMovie.id,
+        reviewScore: null,
+      },
+      updatedMovieReviewCounter: {
+        id: this.$store.state.selectedMovie.id,
+        reviewCounter: null,
+      },
+      updatedMovieDirectorId: {
+        id: this.$store.state.selectedMovie.id,
+        directorId: null,
+      },
+      updatedDirectorName: {
+        id: this.$store.state.selectedDirector.id,
+        name: '',
+      },
+      newDirector:{
+        id:this.$store.state.directors.length,
+        name:''
+      },
+      selectedDirector: {
+        id: this.$store.state.selectedDirector.id,
+        name: '',
+      },
     }
   },
   methods: {
@@ -99,35 +121,74 @@ export default {
   element.classList.add("visible");
 },
     saveNewTitle() {
-      const id = this.$store.state.selectedMovie.id; // Get the movie ID
+      const id = this.$store.state.selectedMovie.id;
       const updatedMovie = { ...this.updatedMovieName, name: this.updatedMovieName.name };
       console.log(updatedMovie)
-      // Get the updated title
-      //
           axios.patch('http://localhost:3000/movies/' + id, updatedMovie)
           .then((response) => console.log(response))
           .catch((error) => console.log(error));
-      // MovieService.updateMovieTitle(id, { name: updatedTitle })
-      //     .then(response => {
-      //       // Handle success
-      //       console.log('Title updated successfully', response.data);
-      //     })
-      //     .catch(error => {
-      //       // Handle error
-      //       console.error('Error updating title', error);
-      //     });
     },
+    // saveNewDirector() {
+    //   const updatedDirectorName = this.updatedDirectorName.name;
+    //
+    //   // Check if the new name already exists in the database
+    //   axios.get('http://localhost:3000/directors?name=' + updatedDirectorName)
+    //       .then((response) => {
+    //         const existingDirector = response.data[0];
+    //
+    //         if (existingDirector) {
+    //           // If the director with the same name exists, update the selectedDirector's id
+    //           this.updatedMovieDirectorId.directorId = existingDirector.id;
+    //           this.updateMovieDirectorId();
+    //         } else {
+    //           // If the director with the same name doesn't exist, create a new director
+    //           const newDirector = {
+    //             name: updatedDirectorName
+    //           };
+    //
+    //           axios.post('http://localhost:3000/directors', newDirector)
+    //               .then((response) => {
+    //                 console.log('New director created successfully', response.data);
+    //                 this.updatedMovieDirectorId.directorId = response.data.id;
+    //                 this.updateMovieDirectorId();
+    //               })
+    //               .catch((error) => console.error('Error creating new director', error));
+    //         }
+    //       })
+    //       .catch((error) => console.error('Error checking director name', error));
+    // },
+    // updateMovieDirectorId() {
+    //   const id = this.$store.state.selectedMovie.id;
+    //   const updatedMovie = { ...this.updatedMovieDirectorId, directorId: this.updatedMovieDirectorId.directorId };
+    //
+    //   axios.patch('http://localhost:3000/movies/' + id, updatedMovie)
+    //       .then((response) => console.log('Movie director id updated successfully', response.data))
+    //       .catch((error) => console.error('Error updating movie director id', error));
+    // },
     saveNewDirector() {
-      const { id, directorId } = this.updatedMovie;
-      MovieService.updateDirectorName(id, { directorId })
-          .then(response => {
-            // Handle success
-            console.log('Director updated successfully', response.data);
-          })
-          .catch(error => {
-            // Handle error
-            console.error('Error updating director', error);
-          });
+      const id = this.$store.state.selectedDirector.id;
+      const updatedDirectorName = { ...this.selectedDirector, name: this.updatedDirectorName.name };
+      axios.patch('http://localhost:3000/directors/' + id, updatedDirectorName)
+          .then((response) => console.log('Director name updated successfully', response.data))
+          .catch((error) => console.error('Error updating director name', error));
+    },
+    saveNewReviewScore(){
+      const id = this.$store.state.selectedMovie.id;
+      const reviewScore = Number(this.updatedMovieReviewScore.reviewScore)
+      const updatedMovie = { ...this.updatedMovieReviewScore, reviewScore: reviewScore };
+      console.log(updatedMovie)
+      axios.patch('http://localhost:3000/movies/' + id, updatedMovie)
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error));
+    },
+    saveNewReviewCounter(){
+      const id = this.$store.state.selectedMovie.id;
+      const reviewCounter = Number(this.updatedMovieReviewCounter.reviewCounter)
+      const updatedMovie = { ...this.updatedMovieReviewCounter, reviewCounter: reviewCounter };
+      console.log(updatedMovie)
+      axios.patch('http://localhost:3000/movies/' + id, updatedMovie)
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error));
     },
     getMovieAverageScore() {
       if (this.$store.state.selectedMovie.reviewCounter === 0) {
@@ -154,26 +215,6 @@ export default {
       MovieService.updateMovieScore(id, updatedMovie)
       this.$store.commit('setSelectedMovie', updatedMovie)
     },
-    // saveChanges() {
-    //   const updatedMovie = {
-    //     name: this.$store.state.selectedMovie.name,
-    //     director: this.$store.state.selectedDirector.name,
-    //     reviewScore: this.$store.state.selectedMovie.reviewScore,
-    //     reviewCounter: this.$store.state.selectedMovie.reviewCounter,
-    //   };
-    //
-    //   this.$store.dispatch('updateMovie', {
-    //     index: this.$store.state.selectedMovie.id,
-    //     movie: updatedMovie,
-    //   })
-    //       .then(() => {
-    //         this.$store.commit('setSelectedMovie', updatedMovie);
-    //         this.hideForm();
-    //       })
-    //       .catch((error) => {
-    //         console.error('Error updating movie:', error);
-    //       });
-    // },
   }
 };
 </script>
