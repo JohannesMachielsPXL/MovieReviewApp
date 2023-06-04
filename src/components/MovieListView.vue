@@ -5,7 +5,7 @@
     <h1 class="green">Welcome</h1>
     <div class="border filler">
       <p>Add a new movie:</p>
-      <p> titel: <input type="text" v-model="newMovie.name"><button @click="postMovie" id="addmoviebutton" class="clickable">+</button></p>
+      <p> Title: <input type="text" v-model="newMovie.name"><button @click="postMovie" id="addmoviebutton" class="clickable">+</button></p>
     </div>
 
     <div class="border filler">
