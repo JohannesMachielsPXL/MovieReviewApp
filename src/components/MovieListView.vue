@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     findMovieByName() {
-
       if (this.searchName.trim().length === 0) {
         MovieService.getMovies().then((response) => {
           let data = response.data;
@@ -132,6 +131,15 @@ export default {
 </script>
 
 <style scoped>
+
+input {
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+  border-width: 1px;
+  width: auto;
+}
+
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
