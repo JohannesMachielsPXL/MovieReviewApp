@@ -23,30 +23,30 @@
   ],
   "movies": [
     {
+      "id": 0,
       "name": "Titanic",
-      "directorId": 0,
-      "reviewScore": 10,
-      "reviewCounter": 0,
-      "id": 0
+      "directorId": 1,
+      "reviewScore": 86,
+      "reviewCounter": 21
     },
     {
       "id": 1,
       "name": "Avatar",
-      "directorId": 0,
-      "reviewScore": 0,
-      "reviewCounter": 0
+      "directorId": 1,
+      "reviewScore": 5,
+      "reviewCounter": 1
     },
     {
       "id": 2,
       "name": "The Lion King",
-      "directorId": 1,
+      "directorId": 2,
       "reviewScore": 0,
       "reviewCounter": 0
     },
     {
       "id": 3,
       "name": "Frozen",
-      "directorId": 2,
+      "directorId": 3,
       "reviewScore": 0,
       "reviewCounter": 0
     }
@@ -54,14 +54,18 @@
   "directors": [
     {
       "id": 0,
-      "name": "Jon"
+      "name": "New Director"
     },
     {
       "id": 1,
-      "name": "Jon Favreau"
+      "name": "James Cameron"
     },
     {
       "id": 2,
+      "name": "Jon Favreau"
+    },
+    {
+      "id": 3,
       "name": "Chris Buck"
     }
   ],

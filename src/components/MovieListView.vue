@@ -1,16 +1,20 @@
-<template>
+
+<template id="movielist">
+
   <div class="greetings">
     <h1 class="green">Welcome</h1>
     <div class="border filler">
+      <p>Add a new movie:</p>
+      <p> titel: <input type="text" v-model="newMovie.name"><button @click="postMovie" id="addmoviebutton" class="clickable">+</button></p>
+    </div>
 
-    <p>film toevoegen:</p>
-    <p> titel: <input type="text" v-model="newMovie.name"></p>
-    <p> director: <input type="text" v-model="newMovie.directorId"></p>
-    <button @click="postMovie" id="addmoviebutton">+</button>
-    <br></div>
-    <h3>
-      Select a movie to get started
-    </h3>
+    <div class="border filler">
+      <h3>Search movie by name</h3>
+      <input type="text" v-model="searchName">
+      <button @click="findMovieByName" class="clickable">Search</button>
+    </div>
+
+    <H3>Movies</H3>
     <div id="MovieList" class="border filler">
       <table>
         <tbody>
@@ -28,12 +32,12 @@
     <hr>
   </div>
 </template>
-
 <script>
 import MovieService from "@/services/MovieService";
 import DirectorService from "@/Services/DirectorService";
 import axios from "axios";
 import ReviewService from "../Services/ReviewService";
+import MovieReviewView from "@/components/MovieReviewView.vue";
 
 export default {
   name: 'Movies',
@@ -43,19 +47,38 @@ export default {
       newMovie : {
         id: this.$store.state.movies.length,
         name : '',
-        directorId: '',
+        directorId: 0,
         reviewScore: 0,
         reviewCounter: 0
-      }
+      },
+      directors : this.$store.state.directors,
+      searchName: ''
     }
   },
   methods: {
+    findMovieByName() {
+
+      if (this.searchName.trim().length === 0) {
+        MovieService.getMovies().then((response) => {
+          let data = response.data;
+          this.$store.commit('setMovies', data);
+        })
+      } else {
+        axios.get('http://localhost:3000/movies', {
+          params: {
+            name: this.searchName,
+          }
+        })
+            .then((response) => { let data = response.data
+              this.$store.commit('setMovies', data)
+            })
+        ;
+      }
+    },
     postMovie() {
       const newMovie = {
-        ...this.newMovie,
-        directorId: 1
+        ...this.newMovie
       }
-
       axios.post('http://localhost:3000/movies',newMovie)
           .then((response) => console.log(response))
           .catch((error) => console.log(error));
@@ -63,7 +86,10 @@ export default {
       MovieService.getMovies().then((response) => {
             let data = response.data;
             this.$store.commit('setMovies', data);
-    })},
+      })
+
+      this.newMovie.name = '';
+    },
 
     fetchMovie(id) {
       MovieService.getMovieNameById(id).then((response) => {
@@ -84,13 +110,6 @@ export default {
         });
       }
     },
-
-    // getDirectorName(directorId) {
-    //   const director = this.$store.state.directors.find(
-    //       (director) => director.id === directorId
-    //   );
-    //   return director ? director.name : '';
-    // }
   },
   beforeCreate() {
     MovieService.getMovies().then((response) => {
@@ -104,6 +123,7 @@ export default {
       this.$store.commit('setReviews', data);
       console.log(this.$store.state.reviews)
       // this.$store.commit('setSelectedMovie', movie)
+      this.$store.commit('setSelectedMovie', movie)
 
     });
 
@@ -118,14 +138,18 @@ h1 {
   top: -10px;
 }
 
+td {
+  display: block;
+  background: lightgrey;
+  border-radius: 10px;
+}
+td:hover {
+  background: #00bd7e;
+}
+
 button {
   background: none;
   border: none;
-}
-
-button:hover {
-  background: #00bd7e;
-  border-radius: 5px;
 }
 
 h3 {
@@ -137,14 +161,9 @@ h3 {
   text-align: center;
 }
 
-#addmoviebutton {
-  background: #00bd7e;
-  border-radius: 10px;
-  margin-left: 5px;
-}
-
 td {
   text-align: left;
+  width: 100px;
 }
 
 .border {
@@ -152,6 +171,19 @@ td {
   border-color: #00bd7e;
   border-radius: 10px;
   border-width: 1px;
+}
+
+.clickable {
+  background: #00bd7e;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.clickable:hover {
+  background: #008458;
 }
 
 .filler {

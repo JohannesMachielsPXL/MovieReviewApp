@@ -48,19 +48,24 @@ import MovieReviewNew from "./MovieReviewNew.vue";
       </div>
     </template>
 
+
     <template #movieAverageRating>
       <div class="border filler">
         <p id="MovieScore">score: {{ getMovieAverageScore() }}</p>
         new score: <input v-model="scoreToAdd">
         <button @click="addScore">+</button>
+        <p id="scoreError"></p>
       </div>
     </template>
 
+    <!--
     <template #movieReviews>
       <MovieReviewNew id="newReview" v-if="this.active" v-on:formClose="this.active = false">
       </MovieReviewNew>
 
     </template>
+    <template #createReview>Insert create review options (creates a movieReviewItem)</template>
+    -->
   </MovieItem>
   <div id="reviews">
     <ul>
@@ -69,6 +74,7 @@ import MovieReviewNew from "./MovieReviewNew.vue";
   </div>
 
 </template>
+
 <script>
 import MovieService from "@/Services/MovieService";
 import axios from "axios";
@@ -82,8 +88,8 @@ export default {
     return {
       movieTitle: String,
       reviews : [],
-      scoreToAdd: 0,
       active: false,
+      scoreToAdd: null,
       updatedMovieName: {
         id: this.$store.state.selectedMovie.id,
         name: '',
@@ -133,43 +139,6 @@ export default {
           .then((response) => console.log(response))
           .catch((error) => console.log(error));
     },
-    // saveNewDirector() {
-    //   const updatedDirectorName = this.updatedDirectorName.name;
-    //
-    //   // Check if the new name already exists in the database
-    //   axios.get('http://localhost:3000/directors?name=' + updatedDirectorName)
-    //       .then((response) => {
-    //         const existingDirector = response.data[0];
-    //
-    //         if (existingDirector) {
-    //           // If the director with the same name exists, update the selectedDirector's id
-    //           this.updatedMovieDirectorId.directorId = existingDirector.id;
-    //           this.updateMovieDirectorId();
-    //         } else {
-    //           // If the director with the same name doesn't exist, create a new director
-    //           const newDirector = {
-    //             name: updatedDirectorName
-    //           };
-    //
-    //           axios.post('http://localhost:3000/directors', newDirector)
-    //               .then((response) => {
-    //                 console.log('New director created successfully', response.data);
-    //                 this.updatedMovieDirectorId.directorId = response.data.id;
-    //                 this.updateMovieDirectorId();
-    //               })
-    //               .catch((error) => console.error('Error creating new director', error));
-    //         }
-    //       })
-    //       .catch((error) => console.error('Error checking director name', error));
-    // },
-    // updateMovieDirectorId() {
-    //   const id = this.$store.state.selectedMovie.id;
-    //   const updatedMovie = { ...this.updatedMovieDirectorId, directorId: this.updatedMovieDirectorId.directorId };
-    //
-    //   axios.patch('http://localhost:3000/movies/' + id, updatedMovie)
-    //       .then((response) => console.log('Movie director id updated successfully', response.data))
-    //       .catch((error) => console.error('Error updating movie director id', error));
-    // },
     saveNewDirector() {
       const id = this.$store.state.selectedDirector.id;
       const updatedDirectorName = { ...this.selectedDirector, name: this.updatedDirectorName.name };
@@ -199,7 +168,7 @@ export default {
       if (this.$store.state.selectedMovie.reviewCounter === 0) {
         return "no score";
       } else {
-        return this.$store.state.selectedMovie.reviewScore / this.$store.state.selectedMovie.reviewCounter + "/5";
+        return (this.$store.state.selectedMovie.reviewScore / this.$store.state.selectedMovie.reviewCounter).toFixed(1) + "/5";
       }
     },
     hideForm() {
@@ -208,17 +177,23 @@ export default {
     },
     addScore() {
       console.log(this.scoreToAdd)
-      const {id, reviewScore, reviewCounter} = this.$store.state.selectedMovie;
-      const newScore = reviewScore + +this.scoreToAdd;
-      const newScoreCounter = reviewCounter + 1;
+      if (this.scoreToAdd > 5 || this.scoreToAdd < 0) {
+        document.getElementById("scoreError").textContent = "Score moet tussen 0 en 5 zijn."
+        this.scoreToAdd = null;
+      } else {
+        document.getElementById("scoreError").textContent = ""
+        const {id, reviewScore, reviewCounter} = this.$store.state.selectedMovie;
+        const newScore = reviewScore + +this.scoreToAdd;
+        const newScoreCounter = reviewCounter + 1;
 
-      const updatedMovie = {
-        ...this.$store.state.selectedMovie,
-        reviewScore: newScore,
-        reviewCounter: newScoreCounter
+        const updatedMovie = {
+          ...this.$store.state.selectedMovie,
+          reviewScore: newScore,
+          reviewCounter: newScoreCounter
+        }
+        MovieService.updateMovieScore(id, updatedMovie)
+        this.$store.commit('setSelectedMovie', updatedMovie)
       }
-      MovieService.updateMovieScore(id, updatedMovie)
-      this.$store.commit('setSelectedMovie', updatedMovie)
     },
   }
 };
