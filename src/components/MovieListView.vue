@@ -5,7 +5,7 @@
     <h1 class="green">Welcome</h1>
     <div class="border filler">
       <p>Add a new movie:</p>
-      <p> titel: <input type="text" v-model="newMovie.name"><button @click="postMovie" id="addmoviebutton" class="clickable">+</button></p>
+      <p> Title: <input type="text" v-model="newMovie.name"><button @click="postMovie" id="addmoviebutton" class="clickable">+</button></p>
     </div>
 
     <div class="border filler">
@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     findMovieByName() {
-
       if (this.searchName.trim().length === 0) {
         MovieService.getMovies().then((response) => {
           let data = response.data;
@@ -130,6 +129,15 @@ export default {
 </script>
 
 <style scoped>
+
+input {
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+  border-width: 1px;
+  width: auto;
+}
+
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
