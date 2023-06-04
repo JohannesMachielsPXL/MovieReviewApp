@@ -20,6 +20,11 @@ class ReviewService{
         return axios.put(REVIEW_API_BASE_URL + id, data)
     }
 
+    getReviewsByMovieId(selectedMovie) {
+        return axios.get(REVIEW_API_BASE_URL ,{
+            params: {
+                movieId: selectedMovie}})
+    }
 }
 
 export default new ReviewService();

@@ -1,7 +1,7 @@
 <script setup>
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
-import MovieReviewItem from "@/components/MovieReviewItem.vue";
+import MovieReviews from "@/components/MovieReviews.vue";
 import MovieReviewNew from "./MovieReviewNew.vue";
 
 </script>
@@ -58,6 +58,7 @@ import MovieReviewNew from "./MovieReviewNew.vue";
       </div>
     </template>
 
+
     <!--
     <template #movieReviews>
       <MovieReviewNew id="newReview" v-if="this.active" v-on:formClose="this.active = false">
@@ -67,11 +68,8 @@ import MovieReviewNew from "./MovieReviewNew.vue";
     <template #createReview>Insert create review options (creates a movieReviewItem)</template>
     -->
   </MovieItem>
-  <div id="reviews">
-    <ul>
-      <li v-for="(review) in this.reviews" v-bind:key=review.id>test {{review.id}}</li>
-    </ul>
-  </div>
+  <MovieReviewNew v-if="this.active" v-on:formClose="this.active=false"></MovieReviewNew>
+  <MovieReviews></MovieReviews>
 
 </template>
 
@@ -80,10 +78,6 @@ import MovieService from "@/Services/MovieService";
 import axios from "axios";
 import ReviewService from "../Services/ReviewService";
 export default {
-  mounted () {
-    // after the sidebar is populated
-    this.reviews = this.$store.getters.getReviews;
-    },
   data() {
     return {
       movieTitle: String,
@@ -128,9 +122,7 @@ export default {
     addReview(){
       this.active = true;
     },
-    getMovieReviews(){
-      return ReviewService.getReviews(this.$store.selectedMovie.id)
-    },
+
     saveNewTitle() {
       const id = this.$store.state.selectedMovie.id;
       const updatedMovie = { ...this.updatedMovieName, name: this.updatedMovieName.name };

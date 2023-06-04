@@ -35,6 +35,7 @@ export default {
         "id" : this.reviewId,
         "movieId" : this.movieId,
         "comment" : this.comment,
+        "score" : this.score,
       }
       console.log(data)
       ReviewService.postNewReview(data);

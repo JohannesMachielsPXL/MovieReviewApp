@@ -70,141 +70,22 @@
     }
   ],
   "reviews": [
-    {},
     {
       "id": 1,
       "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": {},
-      "movieId": 2,
-      "comment": "test"
+      "comment": "Lion"
     },
     {
       "id": 2,
-      "movieId": 2,
-      "comment": "d"
+      "movieId": 0,
+      "comment": "20",
+      "score": "3"
     },
     {
       "id": 3,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 4,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 5,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 6,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 7,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 8,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 9,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 10,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 11,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 12,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 13,
-      "movieId": 2,
-      "comment": "d"
-    },
-    {
-      "id": 14,
-      "movieId": 3,
-      "comment": "testemit"
-    },
-    {
-      "id": 15,
-      "movieId": 3,
-      "comment": ""
-    },
-    {
-      "id": 16,
-      "movieId": 3,
-      "comment": ""
-    },
-    {
-      "id": 17,
-      "movieId": 1,
-      "comment": "test"
-    },
-    {
-      "id": 18,
-      "movieId": 1,
-      "comment": "test"
-    },
-    {
-      "id": 19,
-      "movieId": 2,
-      "comment": "test"
-    },
-    {
-      "id": 20,
-      "movieId": 2,
-      "comment": "test"
-    },
-    {
-      "id": 21,
-      "movieId": 2,
-      "comment": "test"
-    },
-    {
-      "id": 22,
-      "movieId": 2,
-      "comment": "test"
-    },
-    {
-      "id": 23,
-      "movieId": 2,
-      "comment": "test"
-    },
-    {
-      "id": 24,
-      "movieId": 2,
-      "comment": "test"
-    },
-    {
-      "id": 25,
-      "movieId": 2,
-      "comment": "test"
-    },
-    {
-      "id": 26,
-      "movieId": 2,
-      "comment": "test"
+      "movieId": 0,
+      "comment": "New score",
+      "score": "20"
     }
   ]
 }

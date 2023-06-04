@@ -8,7 +8,8 @@ const store = createStore({
             selectedMovie:{data:{name:"none"}},
             directors: [],
             selectedDirector:{data:{name: String},
-            reviews: []}
+            reviews: [],
+            }
         }
     },
     mutations: {

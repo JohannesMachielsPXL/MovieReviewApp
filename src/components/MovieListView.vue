@@ -19,8 +19,8 @@
       <table>
         <tbody>
         <tr v-for="(movie) in $store.state.movies" v-bind:key=movie.id>
-          <td>
-            <button @click="fetchMovie(movie.id)" >{{ movie.name }} </button>
+          <td @click="fetchMovie(movie.id)" >
+            <button >{{ movie.name }} </button>
             <span >
 
             </span>
@@ -98,6 +98,10 @@ export default {
         this.movie = data;
         this.fetchDirector(data.directorId);
       });
+      ReviewService.getReviewsByMovieId(id).then((response)=>this.$store.commit('setReviews', response.data));
+      console.log(this.$store.getters.getReviews)
+
+
     },
     fetchDirector(directorId) {
       if (directorId !== undefined) { // Check if directorId is defined
@@ -117,15 +121,9 @@ export default {
       let movie = data[0];
       this.movie = movie.name;
       this.$store.commit('setMovies', data);
-
-      const reviews = ReviewService.getReviews();
-      data = reviews;
-      this.$store.commit('setReviews', data);
-      console.log(this.$store.state.reviews)
-      // this.$store.commit('setSelectedMovie', movie)
-      this.$store.commit('setSelectedMovie', movie)
-
+      this.$store.commit('setSelectedMovie', movie);
     });
+
 
   }
 }
