@@ -17,6 +17,12 @@ class MovieService{
         return axios.get(MOVIE_API_BASE_URL + id);
     }
 
+    getMovieByFirstLetter() {
+        return axios.get(MOVIE_API_BASE_URL, {
+            filter: '[["name[0]", "=", T]]'
+        })
+    }
+
     updateMovieScore(id,data) {
         return axios.put(MOVIE_API_BASE_URL + id, data)
     }
