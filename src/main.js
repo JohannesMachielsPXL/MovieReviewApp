@@ -7,12 +7,16 @@ const store = createStore({
             movies: [],
             selectedMovie:{data:{name:"none"}},
             directors: [],
-            selectedDirector:{data:{name: String}}
+            selectedDirector:{data:{name: String},
+            reviews: []}
         }
     },
     mutations: {
         setMovies (state,movies){
             state.movies = movies;
+        },
+        setReviews (state,reviews){
+            state.reviews = reviews;
         },
         setSelectedMovie (state,selectedMovie){
             state.selectedMovie = selectedMovie;
@@ -30,6 +34,9 @@ const store = createStore({
         },
         selectedDirector(state) {
             return state.selectedDirector;
+        },
+        getReviews(state){
+            return state.reviews;
         }
     },
     actions: {

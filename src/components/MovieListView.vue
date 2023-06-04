@@ -33,6 +33,7 @@
 import MovieService from "@/services/MovieService";
 import DirectorService from "@/Services/DirectorService";
 import axios from "axios";
+import ReviewService from "../Services/ReviewService";
 
 export default {
   name: 'Movies',
@@ -97,6 +98,11 @@ export default {
       let movie = data[0];
       this.movie = movie.name;
       this.$store.commit('setMovies', data);
+
+      const reviews = ReviewService.getReviews();
+      data = reviews;
+      this.$store.commit('setReviews', data);
+      console.log(this.$store.state.reviews)
       // this.$store.commit('setSelectedMovie', movie)
 
     });

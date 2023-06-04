@@ -2,6 +2,7 @@
 import MovieItem from './MovieItem.vue'
 import MovieRatingIcon from './icons/IconMovieRating.vue'
 import MovieReviewItem from "@/components/MovieReviewItem.vue";
+import MovieReviewNew from "./MovieReviewNew.vue";
 
 </script>
 
@@ -15,6 +16,7 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
           <p>Review score: {{ this.$store.state.selectedMovie.reviewScore }}</p>
           <p>Review counter: {{ this.$store.state.selectedMovie.reviewCounter }}</p>
           <button @click="showForm()">Change movie properties</button>
+          <button @click="addReview()">Add Review</button>
         </div>
         <div id="changeMovieProperties" class="hidden changeMovieProperties border filler">
           <form>
@@ -55,36 +57,33 @@ import MovieReviewItem from "@/components/MovieReviewItem.vue";
     </template>
 
     <template #movieReviews>
-      *** Insert list of movie reviews (as movieReviewItems)
-      <br>
-      movie reviewItem example:
-      <MovieReviewItem>
-        <template #icon2>
-          <MovieRatingIcon/>
-        </template>
-        <template #reviewCreatorName>
-          Franske Ferdinand
-        </template>
-        <template #movieRatingFromReviewCreator>
-          x x x x x
-        </template>
-        <template #movieReviewFromCreator>
-          Franske Ferdinand vind dees ne ferme film
-        </template>
-      </MovieReviewItem>
-      <hr>
+      <MovieReviewNew id="newReview" v-if="this.active" v-on:formClose="this.active = false">
+      </MovieReviewNew>
+
     </template>
-    <template #createReview>Insert create review options (creates a movieReviewItem)</template>
   </MovieItem>
+  <div id="reviews">
+    <ul>
+      <li v-for="(review) in this.reviews" v-bind:key=review.id>test {{review.id}}</li>
+    </ul>
+  </div>
+
 </template>
 <script>
 import MovieService from "@/Services/MovieService";
 import axios from "axios";
+import ReviewService from "../Services/ReviewService";
 export default {
+  mounted () {
+    // after the sidebar is populated
+    this.reviews = this.$store.getters.getReviews;
+    },
   data() {
     return {
       movieTitle: String,
+      reviews : [],
       scoreToAdd: 0,
+      active: false,
       updatedMovieName: {
         id: this.$store.state.selectedMovie.id,
         name: '',
@@ -120,6 +119,12 @@ export default {
   const element = document.getElementById("changeMovieProperties");
   element.classList.add("visible");
 },
+    addReview(){
+      this.active = true;
+    },
+    getMovieReviews(){
+      return ReviewService.getReviews(this.$store.selectedMovie.id)
+    },
     saveNewTitle() {
       const id = this.$store.state.selectedMovie.id;
       const updatedMovie = { ...this.updatedMovieName, name: this.updatedMovieName.name };
